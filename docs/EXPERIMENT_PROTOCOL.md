@@ -1,6 +1,8 @@
 # Experiment Protocol — Leakage-Safe by Design
 
-## Frozen Titanic protocol (2026-10-18, before any model fitting)
+> Historical extended protocol below. The user subsequently requested a beginner assignment. The current fixed-default notebook/script and `BEGINNER_SCOPE.md` supersede tuning, CV, bootstrap and module requirements here. The original test membership is preserved.
+
+## Historical frozen Titanic protocol (2026-10-18, before any model fitting)
 Executable values are in `config/experiment.json`. Positive label 1 means survived. Raw predictors: Age, SibSp, Parch, Fare, Pclass, Sex, Embarked. PassengerId is identity only; Name and Ticket define travel groups only; Cabin is an excluded high-cardinality identifier. Exclusions are semantic choices made before model results. No feature-selection search, clipping, family-size predictor or target-informed engineering.
 
 Travel groups are connected components under normalized shared ticket or (surname, reported family size) with size > 1. Use StratifiedGroupKFold(5, shuffle=True, random_state=42), outer fold 0 as the approximately 20% holdout, chosen by index without evaluating candidates. Remaining records form development training. Use the same five inner group-aware folds for all models and every candidate. Group stratification is approximate; do not search seeds for attractive balance/results. If a partition lacks a class, fail explicitly.

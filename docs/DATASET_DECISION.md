@@ -1,6 +1,6 @@
 # Dataset Selection and Provenance
 
-**Status: selected and inspected on 2026-10-18.**
+**Status: selected and inspected on 2026-10-18.** Current beginner implementation: `assignment.py` / `notebooks/assignment.ipynb`; see `BEGINNER_SCOPE.md`.
 
 ## Verified selection
 - Dataset: Titanic - Machine Learning from Disaster, Kaggle competition, user-supplied archive `data/titanic.zip`.
@@ -15,7 +15,7 @@
 - Archive `test.csv`: 418 unlabeled records; `gender_submission.csv`: 418 example predictions, not ground truth. Neither is used for evaluation, fitting, imputation, encoding, tuning, or EDA.
 - User explicitly supplied the Titanic files and identified the official Kaggle source. Choose Titanic over clean numeric alternatives because it supports meaningful missingness, categorical handling and dependence analysis within the requested scope.
 - Retrieval: sign in to Kaggle, accept competition rules if prompted, Download All, save archive as `data/titanic.zip`. Optional Kaggle CLI: `kaggle competitions download -c titanic -p data` (CLI/account setup is optional and outside the experiment dependencies).
-- Loader: `from src.data import load_data; frame = load_data()`; refuses different bytes or invalid schema. No account access or download is needed at experiment runtime once the user supplies the file.
+- Loader: `assignment.py` reads archive member train.csv with zipfile/pandas and asserts its exact SHA-256. No account access or download is needed at experiment runtime once the user supplies the file.
 
 ## Selection criteria
 1. Binary classification with explicit semantic positive class and ethically appropriate usage.

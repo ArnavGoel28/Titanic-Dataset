@@ -1,5 +1,0 @@
-# Human-readable environment target; requirements.txt will contain tested pins.
-name: titanic-classifiers
-dependencies:
-  - python=3.12
-  - pip

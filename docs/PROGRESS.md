@@ -1,5 +1,7 @@
 # Execution Progress and Decision Log
 
+**Current scope:** Beginner notebook, matching script, short generated report and basic checks. The later user clarification replaces the extended M7/M8 plan. See `BEGINNER_SCOPE.md`.
+
 **Initial status:** Scaffold received. Implementation began 2026-10-18. No remote pushes are authorized or claimed.
 
 | Milestone | Status | Evidence / tests | Commit SHA | Blockers / next steps |
@@ -10,9 +12,9 @@
 | M3 Preprocessing | Complete | 712 train / 179 holdout, 671 groups; row/group isolation and fold-local median tests pass | 41b00b4 | Model baselines |
 | M4 Models | Complete | All three pipelines fit and return valid probabilities; 10 tests passed | 99580c8 | Holdout metrics |
 | M5 Validation/tuning | Complete | 5 shared group folds, 8 candidates; frozen GNB smoothing=.01 / LR C=.1 | 99580c8 | First holdout evaluation |
-| M6 Test evaluation | Complete | First holdout evaluation completed; 13 tests pass; figures visually checked | Recorded next entry | Verified report and notebook |
-| M7 Report | Pending | | | |
-| M8 Final QA | Pending | | | |
+| M6 Test evaluation | Historical complete | First advanced evaluation completed; later retired for beginner scope | 1fc782e | Simplified final submission |
+| M7 Beginner notebook/report | Complete | 23-cell notebook executed with 2 figures and zero errors; short report regenerated from real results | Final scope-change commit (see Git log) | Final basic QA |
+| M8 Final QA | Complete for revised beginner scope | 3 tests pass; compileall and pip check pass; notebook/script ASTs match; plots visually checked | Final scope-change commit (see Git log) | No remote CI or push claimed |
 
 ## Decision entries
 Use append-only entries:
@@ -39,3 +41,7 @@ Use append-only entries:
 
 ## Progress format
 At the end of each work block: Completed; verified commands and results; changed files; commit SHA (if created); risks; next step; user inputs needed. Never mark pending work complete.
+
+2026-10-18 — User scope correction: beginner assignment only. Plan: replace advanced src modules, CV/bootstrap outputs and extended configuration with one sequential script and matching notebook. Reuse fixed train/test IDs; defaults chosen by requested simplicity, not test performance. Keep raw files, original guides and unrelated GAN notebook unchanged. A short Markdown report replaces the planned six-page PDF. Preserve earlier work in Git history.
+
+2026-10-18 — Revised M7/M8 complete: advanced modules/search/bootstrap artifacts removed from current tree, preserved in prior commits. The user-supplied files and original AGENTS.md remain untouched. Added assignment.py, executed 23-cell notebook, direct tested dependency pins, concise README, current-scope doc, 3 small tests, generated report/CSV/missingness/summary and 2 figures. NotebookClient executed all cells with the .venv interpreter: 2 displayed figures, 0 error outputs. `python -m pytest -q`: 3 passed in 1.82s; `compileall -q assignment.py tests`: passed; `pip check`: no broken requirements; `git diff --check`: passed. Default NB accuracy/F1/log-loss: .7877/.7206/.6546; default LR .8045/.7368/.4342. Both use 712 train / 179 test; majority baseline .6201. Models agree on 168/179. No tuning in simplified run. Both new figures visually checked. Kaggle raw files ignored, original GAN notebook ignored, no credentials or model files added. Remote CI not available without a push; no push or remote configuration change made.
