@@ -33,14 +33,14 @@ Naive Bayes            0.7877     0.7206  0.7206  0.7206   0.8409    0.6546
 Logistic Regression    0.8045     0.7538  0.7206  0.7368   0.8650    0.4342
 ```
 
-![Confusion matrices](figures/confusion_matrices.png)
+![Confusion matrices](output/graphs/confusion_matrices.png)
 
 ## Final findings and analysis
 Naive Bayes: accuracy 0.788, F1 0.721, log-loss 0.655.
 Logistic Regression: accuracy 0.804, F1 0.737, log-loss 0.434.
 The models agreed on 168 of 179 test passengers.
 Highest accuracy in this run: Logistic Regression.
-These results apply to this split and preprocessing. No parameter tuning was done in this notebook.
+These results apply to this split and preprocessing. No parameter tuning was done in this analysis.
 
 Naive Bayes correctly classified 141/179 passengers; Logistic Regression correctly classified 144/179. The majority-class reference correctly classified 111/179.
 
@@ -63,7 +63,9 @@ this simplified default-model comparison is not a new independent experiment.
 No setting was adjusted to improve these test scores.
 
 ## Reproduction and references
-Run `python titanic.py` or execute `notebooks/titanic.ipynb` from top to bottom.
+Run `python titanic.py` to regenerate the fitted models, output tables, graphs and this report.
+The input is `data/train.csv`; fixed training/test membership is stored in `data/split.json`.
+The fitted bundles in `models/` contain the estimators and training-only preprocessing settings.
 Tables, plots and this report are generated from real results.
 - Data/rules: https://www.kaggle.com/competitions/titanic/data and https://www.kaggle.com/competitions/titanic/rules
 - NB: https://scikit-learn.org/stable/modules/naive_bayes.html

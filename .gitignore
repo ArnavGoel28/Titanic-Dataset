@@ -1,4 +1,4 @@
-# Environment and credentials
+# Local environments, caches and credentials
 .env
 .env.*
 !.env.example
@@ -7,33 +7,21 @@ venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
-.mypy_cache/
-.ruff_cache/
+.pytest_tmp/
 .ipynb_checkpoints/
-.DS_Store
-Thumbs.db
-# Downloaded/derived data, trained objects and caches
-data/raw/
-data/interim/
-data/processed/
-*.joblib
-*.pkl
-*.pickle
-*.onnx
-models/
 .cache/
-# Keep curated final figures manually, ignore bulk temporary output
-reports/tmp/
-outputs/
-# Local editor
+.local/
+tmp/
+# Local editors and unrelated material
 .vscode/
 .idea/
-# User-supplied data and unrelated notebook stay local
-data/*.csv
+.DS_Store
+Thumbs.db
+/*.ipynb
+# Keep only the verified labeled input and the two generated model bundles.
 data/*.zip
-/SAGEMAKER_LEARNED_EVOLUTION.ipynb
-tmp/
-.pytest_tmp/
-
-# Local working notes
-.local/
+data/*.csv
+!data/train.csv
+*.joblib
+!models/naive_bayes.joblib
+!models/logistic_regression.joblib
