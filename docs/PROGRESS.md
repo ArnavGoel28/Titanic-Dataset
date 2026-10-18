@@ -51,3 +51,7 @@ At the end of each work block: Completed; verified commands and results; changed
 2026-10-18 — User explicitly authorized pushing every major step to https://github.com/ArnavGoel28/Titanic-Dataset on main. Configured origin and successfully pushed the existing seven commits through 8ba1514, preserving their history. Next milestone: make NB fitting explicit in the beginner code, rerun notebook/tests, commit and push. Follow with a separate LR teaching step and stronger final findings.
 
 2026-10-18 — Explicit NB step verified: 23 notebook cells executed, zero error outputs; 3 tests passed. Results CSV exactly matches the previous commit. No data, split, preprocessing or model parameters changed. Commit and push this teaching-focused change before LR.
+
+2026-10-18 — NB milestone 6e2eba5 successfully pushed to origin/main. LR milestone plan: give Logistic Regression its own explained notebook cell, named estimator and explicit fit call on the same prepared training records. Verify execution and unchanged scores, then commit/push separately. Initial command did not start because automatic permission review timed out; retrying once as permitted.
+
+2026-10-18 — Explicit LR step verified: 25 notebook cells executed, zero error outputs; 3 tests passed. Result scores unchanged from NB milestone. Both models fit the same prepared training data, each in its own identifiable step. Commit and push this milestone separately.

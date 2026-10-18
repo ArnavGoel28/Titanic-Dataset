@@ -138,12 +138,10 @@ if plt.get_backend().lower() != "agg":
 plt.close(fig)
 
 # %% [markdown]
-# ## 8. Train Naive Bayes and Logistic Regression
+# ## 8. Train Naive Bayes
 # GaussianNB uses Bayes' rule and assumes independent Gaussian features within each
 # class. Counts and encoded categories are not Gaussian, so this is an approximation.
-# Logistic Regression applies a sigmoid to a weighted feature sum to estimate
-# survival probability. It assumes linear log-odds.
-# Both models use default settings; max_iter only gives LR enough time to converge.
+# GaussianNB uses its default settings for this assignment.
 
 # %%
 # Train Naive Bayes directly so the fit step is easy to identify.
@@ -151,13 +149,21 @@ naive_bayes = GaussianNB()
 naive_bayes.fit(X_train, y_train)
 print("Naive Bayes training complete")
 
-models = {"Naive Bayes": naive_bayes,
-          "Logistic Regression": LogisticRegression(max_iter=1000)}
-models["Logistic Regression"].fit(X_train, y_train)
+# %% [markdown]
+# ## 9. Train Logistic Regression
+# Logistic Regression applies a sigmoid to a weighted feature sum to estimate
+# survival probability. It assumes linear log-odds. Use the same training records
+# and prepared features as Naive Bayes. max_iter=1000 allows enough iterations
+# for convergence; the other model settings remain at their defaults.
+
+# %%
+logistic_regression = LogisticRegression(max_iter=1000)
+logistic_regression.fit(X_train, y_train)
 print("Logistic Regression training complete")
+models = {"Naive Bayes": naive_bayes, "Logistic Regression": logistic_regression}
 
 # %% [markdown]
-# ## 9. Compare results
+# ## 10. Compare results
 # Accuracy measures overall correctness. Precision measures correctness among
 # predicted survivors. Recall measures how many actual survivors were found.
 # F1 balances precision and recall. ROC-AUC evaluates probability ranking;
@@ -186,7 +192,7 @@ print(results.round(4).to_string())
 results.to_csv(REPORTS / "results.csv")
 
 # %% [markdown]
-# ## 10. Confusion matrices
+# ## 11. Confusion matrices
 # Rows = true labels, columns = predictions. Top-left: true negatives; top-right:
 # false positives; bottom-left: false negatives; bottom-right: true positives.
 
@@ -203,7 +209,7 @@ if plt.get_backend().lower() != "agg":
 plt.close(fig)
 
 # %% [markdown]
-# ## 11. Interpret the results
+# ## 12. Interpret the results
 # Higher accuracy/F1 is better; lower log-loss is better. A single split cannot
 # prove that one algorithm is always superior. Correlation and non-Gaussian inputs
 # can challenge NB, while LR is limited to linear log-odds. Sex and class are
