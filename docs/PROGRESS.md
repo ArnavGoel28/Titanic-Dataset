@@ -8,9 +8,9 @@
 | M1 Dataset selection | Complete | Exact archive CSV checksum/shape verified; pytest data tests: 4 passed; compileall passed | 1a19b67 | Freeze protocol and add training-only EDA |
 | M2 EDA and data quality | Complete | Audit reproduced; two training-only figures generated and visually checked; six tests pass | 41b00b4 | Model baselines |
 | M3 Preprocessing | Complete | 712 train / 179 holdout, 671 groups; row/group isolation and fold-local median tests pass | 41b00b4 | Model baselines |
-| M4 Models | Complete | All three pipelines fit and return valid probabilities; 10 tests passed | Recorded next entry | Holdout metrics |
-| M5 Validation/tuning | Complete | 5 shared group folds, 8 candidates; frozen GNB smoothing=.01 / LR C=.1 | Same combined milestone | First holdout evaluation |
-| M6 Test evaluation | Pending | | | |
+| M4 Models | Complete | All three pipelines fit and return valid probabilities; 10 tests passed | 99580c8 | Holdout metrics |
+| M5 Validation/tuning | Complete | 5 shared group folds, 8 candidates; frozen GNB smoothing=.01 / LR C=.1 | 99580c8 | First holdout evaluation |
+| M6 Test evaluation | Complete | First holdout evaluation completed; 13 tests pass; figures visually checked | Recorded next entry | Verified report and notebook |
 | M7 Report | Pending | | | |
 | M8 Final QA | Pending | | | |
 
@@ -30,6 +30,10 @@ Use append-only entries:
 2026-10-18 — M4/M5 plan: add three minimal pipeline factories and shared-fold GridSearchCV; save all candidate fold scores and selected parameters. Convergence failures are errors. Combine baseline fitting and CV in one coherent training-only implementation, avoiding unused baseline artifacts. Commit selected parameters before first holdout prediction. M2/M3 commit: 41b00b4.
 
 2026-10-18 — M4/M5 complete: `python -m pytest -q`: 10 passed. `python -m src.experiment --stage cv` selected var_smoothing=0.01 and C=0.1; survival F1 means/sample SDs 0.7281/0.0367 (NB), 0.7300/0.0272 (LR), 0/0 (dummy). All candidate fold scores saved; no convergence errors. Compileall/diff checks pass. Selection-CV estimates may be optimistic after tuning; holdout still unevaluated.
+
+2026-10-18 — M6 plan: independently test confusion/metric formulas, class-probability column selection and group-bootstrap integrity; then evaluate frozen pipelines on holdout once. Generate aggregate comparisons, coefficients and diagnostic plots without changing model decisions. M4/M5 commit: 99580c8.
+
+2026-10-18 — M6 first evaluation: `python -m pytest -q`: 13 passed (single-class bootstrap diagnostic warnings prompted a reporting-only guard). `python -m src.experiment --stage full`: 179 holdout passengers, 68 survived, 133 travel groups. NB accuracy/F1/AUC/log-loss: .7989/.7313/.8404/.6388; LR .7933/.7176/.8592/.4554; dummy accuracy .6201, F1 0. Models agree on 172/179; NB alone correct 4, LR alone correct 3. Paired F1 difference interval includes zero. Both holdout figures visually inspected. Model selection and protocol unchanged; later reruns are fixed-protocol reproduction only. Optimized bootstrap to compute only requested interval metrics; dummy PR curve displayed as prevalence baseline rather than interpolated endpoints.
 
 `YYYY-MM-DD — Decision — Alternatives — Evidence/rationale — Implications`.
 

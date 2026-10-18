@@ -1,0 +1,294 @@
+{
+  "dataset_sha256": "7d118fef8b6ccf7f81111877bc388536f7b1e498a655e3d649d19aaa010e9f6f",
+  "config": {
+    "seed": 42,
+    "positive_class": 1,
+    "outer_folds": 5,
+    "holdout_fold": 0,
+    "cv_folds": 5,
+    "primary_metric": "f1",
+    "threshold": 0.5,
+    "gnb_var_smoothing": [
+      1e-09,
+      1e-05,
+      0.01,
+      0.1
+    ],
+    "lr_C": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "bootstrap_repeats": 1000,
+    "bootstrap_seed": 2026
+  },
+  "train_n": 712,
+  "holdout_n": 179,
+  "train_positive": 274,
+  "holdout_positive": 68,
+  "holdout_groups": 133,
+  "metrics": {
+    "Dummy": {
+      "accuracy": 0.6201117318435754,
+      "precision": 0.0,
+      "recall": 0.0,
+      "specificity": 1.0,
+      "f1": 0.0,
+      "balanced_accuracy": 0.5,
+      "roc_auc": 0.5,
+      "average_precision": 0.37988826815642457,
+      "log_loss": 0.6640610941707786,
+      "brier": 0.23559760702580437,
+      "tn": 111,
+      "fp": 0,
+      "fn": 68,
+      "tp": 0
+    },
+    "GaussianNB": {
+      "accuracy": 0.7988826815642458,
+      "precision": 0.7424242424242424,
+      "recall": 0.7205882352941176,
+      "specificity": 0.8468468468468469,
+      "f1": 0.7313432835820896,
+      "balanced_accuracy": 0.7837175410704822,
+      "roc_auc": 0.8403550609432963,
+      "average_precision": 0.7615508457015625,
+      "log_loss": 0.6388173631747852,
+      "brier": 0.16243723664745824,
+      "tn": 94,
+      "fp": 17,
+      "fn": 19,
+      "tp": 49
+    },
+    "LogisticRegression": {
+      "accuracy": 0.7932960893854749,
+      "precision": 0.746031746031746,
+      "recall": 0.6911764705882353,
+      "specificity": 0.8558558558558559,
+      "f1": 0.7175572519083969,
+      "balanced_accuracy": 0.7735161632220455,
+      "roc_auc": 0.8591679915209327,
+      "average_precision": 0.8245476982586938,
+      "log_loss": 0.4553637626138026,
+      "brier": 0.1463679868940569,
+      "tn": 95,
+      "fp": 16,
+      "fn": 21,
+      "tp": 47
+    }
+  },
+  "uncertainty": {
+    "method": "Paired whole-travel-group percentile bootstrap; conditional on fitted models",
+    "models": {
+      "Dummy": {
+        "accuracy": {
+          "low": 0.5355135004821601,
+          "high": 0.7093023255813954,
+          "replicates": 1000
+        },
+        "f1": {
+          "low": 0.0,
+          "high": 0.0,
+          "replicates": 1000
+        },
+        "roc_auc": {
+          "low": 0.5,
+          "high": 0.5,
+          "replicates": 1000
+        },
+        "log_loss": {
+          "low": 0.622222606846104,
+          "high": 0.7037453465360995,
+          "replicates": 1000
+        }
+      },
+      "GaussianNB": {
+        "accuracy": {
+          "low": 0.735253473248596,
+          "high": 0.8571623731459797,
+          "replicates": 1000
+        },
+        "f1": {
+          "low": 0.6211580086580086,
+          "high": 0.8133333333333334,
+          "replicates": 1000
+        },
+        "roc_auc": {
+          "low": 0.7730966380698518,
+          "high": 0.8963701627021243,
+          "replicates": 1000
+        },
+        "log_loss": {
+          "low": 0.43326375257765054,
+          "high": 0.9341478898382186,
+          "replicates": 1000
+        }
+      },
+      "LogisticRegression": {
+        "accuracy": {
+          "low": 0.7298582700175337,
+          "high": 0.8524790627227369,
+          "replicates": 1000
+        },
+        "f1": {
+          "low": 0.6073861566484517,
+          "high": 0.8035756008010682,
+          "replicates": 1000
+        },
+        "roc_auc": {
+          "low": 0.7967197565643869,
+          "high": 0.9124339936249724,
+          "replicates": 1000
+        },
+        "log_loss": {
+          "low": 0.3888829607688757,
+          "high": 0.5237514228663085,
+          "replicates": 1000
+        }
+      }
+    },
+    "lr_minus_nb": {
+      "accuracy": {
+        "low": -0.03764463534361859,
+        "high": 0.02312474794999337,
+        "replicates": 1000
+      },
+      "f1": {
+        "low": -0.05447941325742915,
+        "high": 0.021434422035268772,
+        "replicates": 1000
+      },
+      "roc_auc": {
+        "low": -0.004884919393101181,
+        "high": 0.043080871746428884,
+        "replicates": 1000
+      },
+      "log_loss": {
+        "low": -0.45465873287899605,
+        "high": -0.006974444572567229,
+        "replicates": 1000
+      }
+    }
+  },
+  "disagreement": {
+    "agree": 172,
+    "disagree": 7,
+    "both_correct": 139,
+    "both_wrong": 33,
+    "nb_only_correct": 4,
+    "lr_only_correct": 3
+  },
+  "fitted_details": {
+    "Dummy": {
+      "transformed_features": [
+        "numeric__Age",
+        "numeric__SibSp",
+        "numeric__Parch",
+        "numeric__Fare",
+        "categorical__Pclass_2",
+        "categorical__Pclass_3",
+        "categorical__Sex_male",
+        "categorical__Embarked_Q",
+        "categorical__Embarked_S"
+      ],
+      "largest_holdout_losses": [
+        {
+          "passenger_id": 872,
+          "true_label": 1,
+          "probability": 0.3848314606741573,
+          "log_loss": 0.9549498050239056
+        },
+        {
+          "passenger_id": 843,
+          "true_label": 1,
+          "probability": 0.3848314606741573,
+          "log_loss": 0.9549498050239056
+        },
+        {
+          "passenger_id": 866,
+          "true_label": 1,
+          "probability": 0.3848314606741573,
+          "log_loss": 0.9549498050239056
+        }
+      ]
+    },
+    "GaussianNB": {
+      "transformed_features": [
+        "numeric__Age",
+        "numeric__SibSp",
+        "numeric__Parch",
+        "numeric__Fare",
+        "categorical__Pclass_2",
+        "categorical__Pclass_3",
+        "categorical__Sex_male",
+        "categorical__Embarked_Q",
+        "categorical__Embarked_S"
+      ],
+      "largest_holdout_losses": [
+        {
+          "passenger_id": 119,
+          "true_label": 0,
+          "probability": 0.9999999993730686,
+          "log_loss": 21.19018399805023
+        },
+        {
+          "passenger_id": 333,
+          "true_label": 0,
+          "probability": 0.9963980300107873,
+          "log_loss": 5.626274363964166
+        },
+        {
+          "passenger_id": 374,
+          "true_label": 0,
+          "probability": 0.9922055181497875,
+          "log_loss": 4.854339250752004
+        }
+      ]
+    },
+    "LogisticRegression": {
+      "transformed_features": [
+        "numeric__Age",
+        "numeric__SibSp",
+        "numeric__Parch",
+        "numeric__Fare",
+        "categorical__Pclass_2",
+        "categorical__Pclass_3",
+        "categorical__Sex_male",
+        "categorical__Embarked_Q",
+        "categorical__Embarked_S"
+      ],
+      "coefficients": {
+        "numeric__Age": -0.34699885279640547,
+        "numeric__SibSp": -0.20243353569049027,
+        "numeric__Parch": -0.07467468008316519,
+        "numeric__Fare": 0.3536825804873546,
+        "categorical__Pclass_2": -0.020988779750967846,
+        "categorical__Pclass_3": -0.8989066995740295,
+        "categorical__Sex_male": -1.8772646591471913,
+        "categorical__Embarked_Q": -0.06834099640403597,
+        "categorical__Embarked_S": -0.3969304877507073
+      },
+      "intercept": 1.4582353985545715,
+      "largest_holdout_losses": [
+        {
+          "passenger_id": 570,
+          "true_label": 1,
+          "probability": 0.14004945573315933,
+          "log_loss": 1.9657596635159214
+        },
+        {
+          "passenger_id": 82,
+          "true_label": 1,
+          "probability": 0.1511762132242318,
+          "log_loss": 1.889309147558342
+        },
+        {
+          "passenger_id": 302,
+          "true_label": 1,
+          "probability": 0.15316958522520055,
+          "log_loss": 1.876209571246923
+        }
+      ]
+    }
+  }
+}
