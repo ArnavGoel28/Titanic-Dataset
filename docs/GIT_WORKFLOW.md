@@ -1,5 +1,8 @@
 # Git Commit Workflow and GitHub Actions Policy
 
+## Current user authorization (2026-10-18)
+The user explicitly requested that every major completed step be pushed to https://github.com/ArnavGoel28/Titanic-Dataset and that commit history be maintained. `origin` is this repository; the approved branch is `main`. After each coherent step, run its checks, stage explicit paths, create a meaningful local commit and push it with `git push origin main`. This authorization persists; do not ask again for ordinary milestone pushes. Preserve all existing history. It does not authorize destructive history rewriting, other repositories, or unrelated remote settings changes.
+
 ## Objectives
 A clean, intelligible history proving incremental engineering and validation. Do not confuse frequent commits with well-designed commits: one complete, tested logical unit per change.
 

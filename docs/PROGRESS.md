@@ -13,8 +13,8 @@
 | M4 Models | Complete | All three pipelines fit and return valid probabilities; 10 tests passed | 99580c8 | Holdout metrics |
 | M5 Validation/tuning | Complete | 5 shared group folds, 8 candidates; frozen GNB smoothing=.01 / LR C=.1 | 99580c8 | First holdout evaluation |
 | M6 Test evaluation | Historical complete | First advanced evaluation completed; later retired for beginner scope | 1fc782e | Simplified final submission |
-| M7 Beginner notebook/report | Complete | 23-cell notebook executed with 2 figures and zero errors; short report regenerated from real results | Final scope-change commit (see Git log) | Final basic QA |
-| M8 Final QA | Complete for revised beginner scope | 3 tests pass; compileall and pip check pass; notebook/script ASTs match; plots visually checked | Final scope-change commit (see Git log) | No remote CI or push claimed |
+| M7 Beginner notebook/report | Complete | 25-cell notebook executed with 2 figures and zero errors; short report regenerated from real results | e279bfd / 8ba1514; later teaching updates in Git log | Final basic QA |
+| M8 Final QA | Complete for revised beginner scope | 3 tests pass; compileall and pip check pass; notebook/script ASTs match; plots visually checked | e279bfd / 8ba1514; later teaching updates in Git log | GitHub CI passed for 97183cb; latest findings checked on push |
 
 ## Decision entries
 Use append-only entries:
@@ -55,3 +55,7 @@ At the end of each work block: Completed; verified commands and results; changed
 2026-10-18 — NB milestone 6e2eba5 successfully pushed to origin/main. LR milestone plan: give Logistic Regression its own explained notebook cell, named estimator and explicit fit call on the same prepared training records. Verify execution and unchanged scores, then commit/push separately. Initial command did not start because automatic permission review timed out; retrying once as permitted.
 
 2026-10-18 — Explicit LR step verified: 25 notebook cells executed, zero error outputs; 3 tests passed. Result scores unchanged from NB milestone. Both models fit the same prepared training data, each in its own identifiable step. Commit and push this milestone separately.
+
+2026-10-18 — LR milestone 97183cb successfully pushed to origin/main. Final findings plan: generate correct/incorrect counts, survivor misses, false positives, NB/LR disagreements, probability comparison and practical limitations from actual predictions; verify their consistency against confusion matrices. Update README and durable Git workflow with the user-authorized destination/main milestone pushes.
+
+2026-10-18 — Final findings verified: 25-cell notebook executes without errors, 3 tests pass, syntax check passes. Manual report review caught a floating-point-to-int truncation in the new baseline count text; count now comes directly from correct predictions (111/179), with consistency assertion. NB: 141 correct, 19 FP/19 FN; LR: 144 correct, 16 FP/19 FN; both agree on 168, LR alone correct 7, NB alone 4. Metrics unchanged. GitHub Actions confirmed successful for 8ba1514, 6e2eba5 and 97183cb. This commit publishes the final generated findings and records the continuing authorization for milestone pushes.

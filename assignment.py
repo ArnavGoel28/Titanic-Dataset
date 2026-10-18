@@ -173,6 +173,7 @@ models = {"Naive Bayes": naive_bayes, "Logistic Regression": logistic_regression
 # %%
 majority_class = y_train.mode().iloc[0]
 baseline_accuracy = accuracy_score(y_test, np.full(len(y_test), majority_class))
+baseline_correct = int((y_test == majority_class).sum())
 print(f"Majority-class baseline accuracy: {baseline_accuracy:.3f}")
 rows, predictions, matrices = [], {}, {}
 for name, model in models.items():
@@ -226,9 +227,35 @@ conclusion = (
     "These results apply to this split and preprocessing. No parameter tuning was done in this notebook."
 )
 print(conclusion)
+# Compare actual mistakes, not only overall accuracy.
+nb_tn, nb_fp, nb_fn, nb_tp = np.array(matrices["Naive Bayes"]).ravel()
+lr_tn, lr_fp, lr_fn, lr_tp = np.array(matrices["Logistic Regression"]).ravel()
+nb_right = predictions["Naive Bayes"] == y_test.to_numpy()
+lr_right = predictions["Logistic Regression"] == y_test.to_numpy()
+disagreements = {"both_correct": int((nb_right & lr_right).sum()),
+                 "both_wrong": int((~nb_right & ~lr_right).sum()),
+                 "nb_only_correct": int((nb_right & ~lr_right).sum()),
+                 "lr_only_correct": int((~nb_right & lr_right).sum())}
+findings = (
+    f"Naive Bayes correctly classified {nb_tn + nb_tp}/{len(y_test)} passengers; "
+    f"Logistic Regression correctly classified {lr_tn + lr_tp}/{len(y_test)}. "
+    f"The majority-class reference correctly classified {baseline_correct}/{len(y_test)}.\n\n"
+    f"Among {int(y_test.sum())} actual survivors, NB found {nb_tp} and missed {nb_fn}; "
+    f"LR found {lr_tp} and missed {lr_fn}. NB made {nb_fp} false-positive survival predictions, "
+    f"compared with {lr_fp} for LR. LR-minus-NB accuracy difference: "
+    f"{100 * (lr['Accuracy'] - nb['Accuracy']):.2f} percentage points.\n\n"
+    f"Both models were correct for {disagreements['both_correct']} passengers and wrong for "
+    f"{disagreements['both_wrong']}. Of the {len(y_test) - agreement} disagreements, "
+    f"LR alone was correct {disagreements['lr_only_correct']} times and NB alone "
+    f"{disagreements['nb_only_correct']} times.\n\n"
+    f"Probability ranking (ROC-AUC): NB {nb['ROC-AUC']:.3f}, LR {lr['ROC-AUC']:.3f}. "
+    f"Probability error (log-loss, lower is better): NB {nb['Log-loss']:.3f}, "
+    f"LR {lr['Log-loss']:.3f}. Ranking quality and confidence should be considered alongside accuracy."
+)
+print("\nDetailed findings:\n", findings)
 summary = {"train_records": len(y_train), "test_records": len(y_test),
-           "majority_baseline_accuracy": baseline_accuracy,
-           "confusion_matrices": matrices, "agreement": agreement}
+           "majority_baseline_accuracy": baseline_accuracy, "majority_baseline_correct": baseline_correct,
+           "confusion_matrices": matrices, "agreement": agreement, "disagreements": disagreements}
 (REPORTS / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
 report = f"""# Titanic classification assignment
 
@@ -264,8 +291,14 @@ Majority-class baseline accuracy: {baseline_accuracy:.3f}.
 
 ![Confusion matrices](figures/confusion_matrices.png)
 
-## Discussion
+## Final findings and analysis
 {conclusion}
+
+{findings}
+
+For this assignment's fixed split, LR performed better on accuracy, F1, ROC-AUC and
+log-loss; both models found the same number of survivors. This is a result for this
+sample and preparation, not evidence that LR is always better.
 
 Related predictors can challenge NB's conditional independence assumption. LR permits
 correlated predictors but uses linear log-odds. Ranking and threshold metrics may favor

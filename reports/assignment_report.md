@@ -35,12 +35,24 @@ Logistic Regression    0.8045     0.7538  0.7206  0.7368   0.8650    0.4342
 
 ![Confusion matrices](figures/confusion_matrices.png)
 
-## Discussion
+## Final findings and analysis
 Naive Bayes: accuracy 0.788, F1 0.721, log-loss 0.655.
 Logistic Regression: accuracy 0.804, F1 0.737, log-loss 0.434.
 The models agreed on 168 of 179 test passengers.
 Highest accuracy in this run: Logistic Regression.
 These results apply to this split and preprocessing. No parameter tuning was done in this notebook.
+
+Naive Bayes correctly classified 141/179 passengers; Logistic Regression correctly classified 144/179. The majority-class reference correctly classified 111/179.
+
+Among 68 actual survivors, NB found 49 and missed 19; LR found 49 and missed 19. NB made 19 false-positive survival predictions, compared with 16 for LR. LR-minus-NB accuracy difference: 1.68 percentage points.
+
+Both models were correct for 137 passengers and wrong for 31. Of the 11 disagreements, LR alone was correct 7 times and NB alone 4 times.
+
+Probability ranking (ROC-AUC): NB 0.841, LR 0.865. Probability error (log-loss, lower is better): NB 0.655, LR 0.434. Ranking quality and confidence should be considered alongside accuracy.
+
+For this assignment's fixed split, LR performed better on accuracy, F1, ROC-AUC and
+log-loss; both models found the same number of survivors. This is a result for this
+sample and preparation, not evidence that LR is always better.
 
 Related predictors can challenge NB's conditional independence assumption. LR permits
 correlated predictors but uses linear log-odds. Ranking and threshold metrics may favor

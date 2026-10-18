@@ -32,7 +32,7 @@ Optional checks:
 .venv/Scripts/python.exe -m pytest -q
 ```
 
-CI runs consistency checks without downloading account-gated data. The real-data check runs when the ZIP is present locally. Remote GitHub Actions have not been run from this chat.
+CI runs consistency checks without downloading account-gated data. The real-data check runs when the ZIP is present locally. GitHub Actions runs after each push; see the repository Actions tab for its current status.
 
 ## What to explain in class
 1. What the columns and survival labels mean.
@@ -46,4 +46,12 @@ ROC-AUC and log-loss are included as short probability-based comparisons. The re
 ## Project history
 The original `docs/` guides describe a larger suggested workflow. The user's later instruction explicitly reduced the submission to a beginner assignment; see `docs/BEGINNER_SCOPE.md` and `docs/PROGRESS.md`. The unrelated user-supplied GAN notebook and original data files remain untouched and ignored.
 
-Intended final repository: https://github.com/ArnavGoel28/Titanic-Dataset . No push has been made.
+## GitHub and milestone history
+Published repository: https://github.com/ArnavGoel28/Titanic-Dataset
+
+- Data preparation: [41b00b4](https://github.com/ArnavGoel28/Titanic-Dataset/commit/41b00b4).
+- Explicit Naive Bayes training: [6e2eba5](https://github.com/ArnavGoel28/Titanic-Dataset/commit/6e2eba5).
+- Separate Logistic Regression training: [97183cb](https://github.com/ArnavGoel28/Titanic-Dataset/commit/97183cb).
+- Final findings: the current report and generated results in this commit.
+
+[Full commit history](https://github.com/ArnavGoel28/Titanic-Dataset/commits/main) preserves the earlier development and simplification. The user authorized pushing each completed major step to main. See `docs/GIT_WORKFLOW.md`.

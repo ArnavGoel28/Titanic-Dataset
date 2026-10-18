@@ -2,6 +2,7 @@
   "train_records": 712,
   "test_records": 179,
   "majority_baseline_accuracy": 0.6201117318435754,
+  "majority_baseline_correct": 111,
   "confusion_matrices": {
     "Naive Bayes": [
       [
@@ -24,5 +25,11 @@
       ]
     ]
   },
-  "agreement": 168
+  "agreement": 168,
+  "disagreements": {
+    "both_correct": 137,
+    "both_wrong": 31,
+    "nb_only_correct": 4,
+    "lr_only_correct": 7
+  }
 }
