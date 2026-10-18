@@ -1,0 +1,35 @@
+# Environment and credentials
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+# Downloaded/derived data, trained objects and caches
+data/raw/
+data/interim/
+data/processed/
+*.joblib
+*.pkl
+*.pickle
+*.onnx
+models/
+.cache/
+# Keep curated final figures manually, ignore bulk temporary output
+reports/tmp/
+outputs/
+# Local editor
+.vscode/
+.idea/
+# User-supplied data and unrelated notebook stay local
+data/*.csv
+data/*.zip
+/SAGEMAKER_LEARNED_EVOLUTION.ipynb
+tmp/
