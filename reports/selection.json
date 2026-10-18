@@ -1,0 +1,14 @@
+{
+  "signature": "28c48d8a798238dcdef4ff0de20f78ced14d284a8c1ac5ccfb09005973db312f",
+  "parameters": {
+    "Dummy": {},
+    "GaussianNB": {
+      "model__var_smoothing": 0.01
+    },
+    "LogisticRegression": {
+      "model__C": 0.1
+    }
+  },
+  "selection_metric": "f1",
+  "note": "Selection CV, not nested CV; uncertainty from selection is not estimated."
+}

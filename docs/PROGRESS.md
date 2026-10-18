@@ -6,10 +6,10 @@
 |---|---|---|---|---|
 | M0 Repository scaffold | Complete | Python 3.12 venv; sklearn/pandas/numpy/matplotlib/pytest imports; both YAML files parse; ignore checks pass | c2073ea | Proceed to verified data loader |
 | M1 Dataset selection | Complete | Exact archive CSV checksum/shape verified; pytest data tests: 4 passed; compileall passed | 1a19b67 | Freeze protocol and add training-only EDA |
-| M2 EDA and data quality | Complete | Audit reproduced; two training-only figures generated and visually checked; six tests pass | Recorded next entry | Model baselines |
-| M3 Preprocessing | Complete | 712 train / 179 holdout, 671 groups; row/group isolation and fold-local median tests pass | Same combined milestone | Model baselines |
-| M4 Models | Pending | | | |
-| M5 Validation/tuning | Pending | | | |
+| M2 EDA and data quality | Complete | Audit reproduced; two training-only figures generated and visually checked; six tests pass | 41b00b4 | Model baselines |
+| M3 Preprocessing | Complete | 712 train / 179 holdout, 671 groups; row/group isolation and fold-local median tests pass | 41b00b4 | Model baselines |
+| M4 Models | Complete | All three pipelines fit and return valid probabilities; 10 tests passed | Recorded next entry | Holdout metrics |
+| M5 Validation/tuning | Complete | 5 shared group folds, 8 candidates; frozen GNB smoothing=.01 / LR C=.1 | Same combined milestone | First holdout evaluation |
 | M6 Test evaluation | Pending | | | |
 | M7 Report | Pending | | | |
 | M8 Final QA | Pending | | | |
@@ -26,6 +26,10 @@ Use append-only entries:
 2026-10-18 — M2/M3 plan: implement target-free group partitions before training-only EDA, preserving milestone dependency safety. Freeze protocol/config before fitting any model; generate audit and membership manifest, test no group/row overlap and fold-local imputation. Combining M2/M3 is justified because EDA must use the reserved development records. M1 commit: 1a19b67.
 
 2026-10-18 — M2/M3 complete: `python -m pytest -q`: 6 passed; `python -m src.inspection` reproduced 891 rows, 671 connected groups (largest 8), 712 development / 179 untouched holdout. Numeric ranges/missingness audited. 127 repeated predictor vectors are distinct passenger IDs, not duplicate source rows; retain them. Fifteen zero fares retained without evidence of invalidity. Both EDA figures visually inspected; compileall/diff checks passed. No model fitting or holdout predictions yet.
+
+2026-10-18 — M4/M5 plan: add three minimal pipeline factories and shared-fold GridSearchCV; save all candidate fold scores and selected parameters. Convergence failures are errors. Combine baseline fitting and CV in one coherent training-only implementation, avoiding unused baseline artifacts. Commit selected parameters before first holdout prediction. M2/M3 commit: 41b00b4.
+
+2026-10-18 — M4/M5 complete: `python -m pytest -q`: 10 passed. `python -m src.experiment --stage cv` selected var_smoothing=0.01 and C=0.1; survival F1 means/sample SDs 0.7281/0.0367 (NB), 0.7300/0.0272 (LR), 0/0 (dummy). All candidate fold scores saved; no convergence errors. Compileall/diff checks pass. Selection-CV estimates may be optimistic after tuning; holdout still unevaluated.
 
 `YYYY-MM-DD — Decision — Alternatives — Evidence/rationale — Implications`.
 
