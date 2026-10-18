@@ -1,8 +1,8 @@
 # %% [markdown]
 # # Titanic: Naive Bayes and Logistic Regression
 # **Objective:** prepare the data, train two classifiers, and compare their results.
-# Positive class: `Survived = 1`. This is a beginner assignment with default models.
-# No parameter search, resampling, or advanced model engineering is used.
+# Positive class: `Survived = 1`. Both models use their default settings.
+# Compare prepared features, predictions, and probability quality on shared test records.
 
 # %% [markdown]
 # ## 1. Import libraries
@@ -124,7 +124,7 @@ print("Prepared columns:", X_train.columns.tolist())
 
 # %% [markdown]
 # ## 7. Show a simple training-data graph
-# Use training passengers only. No synthetic oversampling is needed for this exercise.
+# Use training passengers only. No synthetic oversampling is needed for this dataset.
 
 # %%
 fig, axes = plt.subplots(1, 2, figsize=(9, 3.5), layout="constrained")
@@ -141,7 +141,7 @@ plt.close(fig)
 # ## 8. Train Naive Bayes
 # GaussianNB uses Bayes' rule and assumes independent Gaussian features within each
 # class. Counts and encoded categories are not Gaussian, so this is an approximation.
-# GaussianNB uses its default settings for this assignment.
+# GaussianNB uses its default settings for this comparison.
 
 # %%
 # Train Naive Bayes directly so the fit step is easy to identify.
@@ -257,7 +257,7 @@ summary = {"train_records": len(y_train), "test_records": len(y_test),
            "majority_baseline_accuracy": baseline_accuracy, "majority_baseline_correct": baseline_correct,
            "confusion_matrices": matrices, "agreement": agreement, "disagreements": disagreements}
 (REPORTS / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
-report = f"""# Titanic classification assignment
+report = f"""# Titanic survival: model comparison
 
 ## Objective and dataset
 Compare Gaussian Naive Bayes and Logistic Regression on Kaggle Titanic data.
@@ -296,7 +296,7 @@ Majority-class baseline accuracy: {baseline_accuracy:.3f}.
 
 {findings}
 
-For this assignment's fixed split, LR performed better on accuracy, F1, ROC-AUC and
+For this fixed split, LR performed better on accuracy, F1, ROC-AUC and
 log-loss; both models found the same number of survivors. This is a result for this
 sample and preparation, not evidence that LR is always better.
 
@@ -309,10 +309,10 @@ this simplified default-model comparison is not a new independent experiment.
 No setting was adjusted to improve these test scores.
 
 ## Reproduction and references
-Run `python assignment.py` or execute `notebooks/assignment.ipynb` from top to bottom.
+Run `python titanic.py` or execute `notebooks/titanic.ipynb` from top to bottom.
 Tables, plots and this report are generated from real results.
 - Data/rules: https://www.kaggle.com/competitions/titanic/data and https://www.kaggle.com/competitions/titanic/rules
 - NB: https://scikit-learn.org/stable/modules/naive_bayes.html
 - LR: https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
 """
-(REPORTS / "assignment_report.md").write_text("\n".join(line.rstrip() for line in report.splitlines()) + "\n", encoding="utf-8")
+(REPORTS / "model_comparison.md").write_text("\n".join(line.rstrip() for line in report.splitlines()) + "\n", encoding="utf-8")

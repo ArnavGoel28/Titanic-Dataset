@@ -34,3 +34,6 @@ data/*.zip
 /SAGEMAKER_LEARNED_EVOLUTION.ipynb
 tmp/
 .pytest_tmp/
+
+# Local working notes
+.local/

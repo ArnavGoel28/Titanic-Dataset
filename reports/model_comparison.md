@@ -1,4 +1,4 @@
-# Titanic classification assignment
+# Titanic survival: model comparison
 
 ## Objective and dataset
 Compare Gaussian Naive Bayes and Logistic Regression on Kaggle Titanic data.
@@ -50,7 +50,7 @@ Both models were correct for 137 passengers and wrong for 31. Of the 11 disagree
 
 Probability ranking (ROC-AUC): NB 0.841, LR 0.865. Probability error (log-loss, lower is better): NB 0.655, LR 0.434. Ranking quality and confidence should be considered alongside accuracy.
 
-For this assignment's fixed split, LR performed better on accuracy, F1, ROC-AUC and
+For this fixed split, LR performed better on accuracy, F1, ROC-AUC and
 log-loss; both models found the same number of survivors. This is a result for this
 sample and preparation, not evidence that LR is always better.
 
@@ -63,7 +63,7 @@ this simplified default-model comparison is not a new independent experiment.
 No setting was adjusted to improve these test scores.
 
 ## Reproduction and references
-Run `python assignment.py` or execute `notebooks/assignment.ipynb` from top to bottom.
+Run `python titanic.py` or execute `notebooks/titanic.ipynb` from top to bottom.
 Tables, plots and this report are generated from real results.
 - Data/rules: https://www.kaggle.com/competitions/titanic/data and https://www.kaggle.com/competitions/titanic/rules
 - NB: https://scikit-learn.org/stable/modules/naive_bayes.html

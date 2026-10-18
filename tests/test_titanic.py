@@ -1,4 +1,4 @@
-"""Small consistency checks; the assignment itself is in the notebook/script."""
+"""Small consistency checks; the analysis is in the notebook/script."""
 import ast
 import json
 from pathlib import Path
@@ -10,9 +10,9 @@ import pytest
 
 
 def test_notebook_code_matches_script():
-    notebook = json.loads(Path("notebooks/assignment.ipynb").read_text(encoding="utf-8"))
+    notebook = json.loads(Path("notebooks/titanic.ipynb").read_text(encoding="utf-8"))
     code = "\n".join("".join(cell["source"]) for cell in notebook["cells"] if cell["cell_type"] == "code")
-    assert ast.dump(ast.parse(code)) == ast.dump(ast.parse(Path("assignment.py").read_text()))
+    assert ast.dump(ast.parse(code)) == ast.dump(ast.parse(Path("titanic.py").read_text()))
 
 
 def test_report_numbers_match_confusion_matrices():
@@ -37,7 +37,7 @@ def test_report_numbers_match_confusion_matrices():
 def test_real_run_keeps_preparation_training_only():
     import matplotlib
     matplotlib.use("Agg")
-    run = runpy.run_path("assignment.py")
+    run = runpy.run_path("titanic.py")
     train, test = run["train_df"], run["test_df"]
     assert set(train.PassengerId).isdisjoint(test.PassengerId)
     np.testing.assert_allclose(run["train_medians"], train[run["numeric"]].median())

@@ -1,57 +1,136 @@
-# Titanic: Naive Bayes and Logistic Regression
+# Titanic Survival: Naive Bayes vs Logistic Regression
 
-A beginner college assignment: inspect and prepare the data, train two classifiers, and explain the results.
+[![Titanic checks](https://github.com/ArnavGoel28/Titanic-Dataset/actions/workflows/ci.yml/badge.svg)](https://github.com/ArnavGoel28/Titanic-Dataset/actions/workflows/ci.yml)
+![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 
-## Start here
-- **`notebooks/assignment.ipynb`**: the complete assignment, explained step by step, with executed outputs.
-- **`assignment.py`**: the same code as a plain Python script.
-- **`reports/assignment_report.md`**: a short generated report.
-- **`reports/results.csv`**: the actual model comparison.
+A comparison of two classic classifiers on Titanic passenger data, from missing-value preparation to predictions, probability quality, and error analysis. The code and notebook reproduce the published tables and figures.
 
-The submission uses default GaussianNB and LogisticRegression models. There is no hyperparameter search, bootstrap analysis, deployment, or advanced framework. Earlier advanced work remains in Git history; it is not needed for this submission.
+## Get started
 
-## Data
-Download all files from [Kaggle Titanic](https://www.kaggle.com/competitions/titanic/data), accepting its rules if required. Place `titanic.zip` in `data/`. The code reads only its labeled `train.csv` (891 passengers). Raw files are kept out of Git. See `data/README.md` for provenance.
+### 1. Clone the repository
 
-We reuse the already fixed split: 712 training and 179 test passengers. The saved IDs in `reports/split_manifest.json` keep identified travel groups together. Both models use these same records. Missing-value fill values, category definitions and scaling statistics come only from training passengers.
+```bash
+git clone https://github.com/ArnavGoel28/Titanic-Dataset.git
+cd Titanic-Dataset
+```
 
-## Run on Windows
-Use Python 3.12 (the tested version). In the project folder:
+### 2. Install the dependencies
+
+Use Python 3.12, the tested version.
+
+**Windows PowerShell**
 
 ```powershell
 py -3.12 -m venv .venv
 .venv/Scripts/python.exe -m pip install -r requirements.txt
-.venv/Scripts/python.exe assignment.py
 ```
 
-The existing project `.venv` is already configured on this computer. The script regenerates the report, table and two figures. Open the notebook in VS Code or Jupyter, choose the `.venv` Python kernel and run cells from top to bottom for the same work with explanations.
+**macOS / Linux**
 
-Optional checks:
+```bash
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+```
+
+### 3. Download the data
+
+Open [Kaggle Titanic data](https://www.kaggle.com/competitions/titanic/data), sign in and accept the competition rules if prompted. Choose **Download All** and save the archive as **`data/titanic.zip`**. Keep its contents unchanged.
+
+Only the labeled `train.csv` is used. Kaggle's `test.csv` is unlabeled, and `gender_submission.csv` contains example predictions. Raw data is excluded from Git; see [dataset provenance](docs/DATASET.md).
+
+### 4. Run the analysis
+
+On Windows:
 
 ```powershell
-.venv/Scripts/python.exe -m pytest -q
+.venv/Scripts/python.exe titanic.py
 ```
 
-CI runs consistency checks without downloading account-gated data. The real-data check runs when the ZIP is present locally. GitHub Actions runs after each push; see the repository Actions tab for its current status.
+On macOS / Linux:
 
-## What to explain in class
-1. What the columns and survival labels mean.
-2. Why missing values are filled and categories encoded.
-3. Why preprocessing learns only from the training set.
-4. The basic assumptions of Naive Bayes and Logistic Regression.
-5. Accuracy, precision, recall, F1 and the confusion matrices.
+```bash
+.venv/bin/python titanic.py
+```
 
-ROC-AUC and log-loss are included as short probability-based comparisons. The report does not claim that these results apply to every dataset. This test partition was evaluated in earlier development; the simpler notebook reports a default-model comparison and does not claim a new independent holdout.
+For a guided walkthrough, open [the executed notebook](notebooks/titanic.ipynb) in VS Code or an existing Jupyter environment, select the `.venv` Python kernel, and run the cells in order. You can also browse its saved outputs directly on GitHub.
 
-## Project history
-The original `docs/` guides describe a larger suggested workflow. The user's later instruction explicitly reduced the submission to a beginner assignment; see `docs/BEGINNER_SCOPE.md` and `docs/PROGRESS.md`. The unrelated user-supplied GAN notebook and original data files remain untouched and ignored.
+Running the script regenerates the [comparison report](reports/model_comparison.md), [metrics CSV](reports/results.csv), [prediction summary](reports/summary.json), and figures below.
 
-## GitHub and milestone history
-Published repository: https://github.com/ArnavGoel28/Titanic-Dataset
+## Explore the data
 
-- Data preparation: [41b00b4](https://github.com/ArnavGoel28/Titanic-Dataset/commit/41b00b4).
-- Explicit Naive Bayes training: [6e2eba5](https://github.com/ArnavGoel28/Titanic-Dataset/commit/6e2eba5).
-- Separate Logistic Regression training: [97183cb](https://github.com/ArnavGoel28/Titanic-Dataset/commit/97183cb).
-- Final findings: the current report and generated results in this commit.
+The dataset contains **891 passengers**, including **342 survivors**. Survival is the positive class (`Survived = 1`). The two models share **712 training records**, **179 test records**, and the same seven predictors.
 
-[Full commit history](https://github.com/ArnavGoel28/Titanic-Dataset/commits/main) preserves the earlier development and simplification. The user authorized pushing each completed major step to main. See `docs/GIT_WORKFLOW.md`.
+| Feature type | Predictors | Preparation |
+| --- | --- | --- |
+| Numeric | Age, SibSp, Parch, Fare | Training-median fill, then numeric standardization |
+| Categorical | Pclass, Sex, Embarked | Training-mode fill and one-hot encoding |
+
+Age has 177 missing entries, Cabin 687, and Embarked 2. PassengerId, Name, Ticket and Cabin are excluded from the predictors. No exact duplicate passenger records were found. Zero and extreme fares are retained because they are not proven errors.
+
+![Training class counts and observed age distribution](reports/figures/data_overview.png)
+
+*The plots show training passengers only; the age histogram uses observed values. Missing-value fill values, category definitions and scaling statistics are learned exclusively from training records.*
+
+## Model results
+
+Both classifiers use default model settings, with `max_iter=1000` allowing Logistic Regression to converge. They use survival probability **0.5** as the prediction threshold. Precision, recall and F1 below refer to survivors.
+
+| Model | Accuracy | Precision | Recall | F1 | ROC-AUC | Log-loss |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Naive Bayes | 78.77% | 0.7206 | 0.7206 | 0.7206 | 0.8409 | 0.6546 |
+| Logistic Regression | 80.45% | 0.7538 | 0.7206 | 0.7368 | 0.8650 | 0.4342 |
+
+The training-majority reference predicts no survival and scores **62.01% accuracy** (111/179 correct). Higher accuracy, F1 and ROC-AUC are better; lower log-loss is better.
+
+### Where the models make mistakes
+
+![Naive Bayes and Logistic Regression test confusion matrices](reports/figures/confusion_matrices.png)
+
+*Rows are true labels and columns are predictions. The bottom row contains actual survivors.*
+
+| Test outcome | Naive Bayes | Logistic Regression |
+| --- | ---: | ---: |
+| Correct predictions | 141 / 179 | 144 / 179 |
+| Survivors correctly identified | 49 / 68 | 49 / 68 |
+| Survivors missed | 19 | 19 |
+| Non-survivors predicted to survive | 19 | 16 |
+
+### What the results show
+
+**Logistic Regression performs slightly better on this split.** It classifies three additional passengers correctly, a **1.68 percentage-point** accuracy difference. Both models identify 49 of the 68 survivors; the difference comes from Logistic Regression making fewer false-positive survival predictions (16 versus 19).
+
+**The probability metrics add another perspective.** Logistic Regression has higher ROC-AUC (0.865 versus 0.841) and lower log-loss (0.434 versus 0.655). Its probability rankings and probability error are better in this run, alongside the small accuracy gain.
+
+**Agreement includes shared errors.** The models agree on 168 of 179 passengers: both are correct for 137 and wrong for 31. Among the 11 disagreements, Logistic Regression alone is correct 7 times and Naive Bayes alone 4 times.
+
+## Method and limitations
+
+The [saved split](reports/split_manifest.json) keeps identified ticket/family travel groups together. Its membership was fixed before preprocessing and is reused for both models. See [methodology](docs/METHODOLOGY.md) for the grouping rule, preparation steps and metric definitions.
+
+Gaussian Naive Bayes assumes conditionally independent Gaussian features; counts and one-hot indicators violate that approximation. Logistic Regression models linear log-odds. These assumptions help interpret the comparison, but this run does not isolate the cause of the performance difference.
+
+Results describe a small historical sample and one fixed partition, which was inspected during earlier development. They are not an independent external evaluation or evidence that one classifier is universally superior. No settings are adjusted to improve these test scores, and historical associations are not causal conclusions.
+
+## Project files
+
+| Path | Purpose |
+| --- | --- |
+| [`titanic.py`](titanic.py) | Run the complete analysis as a sequential Python script |
+| [`notebooks/titanic.ipynb`](notebooks/titanic.ipynb) | Walk through the same code with explanations and executed outputs |
+| [`reports/model_comparison.md`](reports/model_comparison.md) | Detailed findings and model comparison |
+| [`reports/results.csv`](reports/results.csv) | Machine-readable evaluation metrics |
+| [`docs/DATASET.md`](docs/DATASET.md) | Source, checksum, feature definitions and data-quality notes |
+| [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) | Split design, preparation and evaluation details |
+| [`tests/test_titanic.py`](tests/test_titanic.py) | Notebook synchronization, result consistency and training-only preparation checks |
+
+## Checks and reproducibility
+
+Run `.venv/Scripts/python.exe -m pytest -q` on Windows, or `.venv/bin/python -m pytest -q` on macOS / Linux.
+
+[GitHub Actions](https://github.com/ArnavGoel28/Titanic-Dataset/actions) checks syntax and notebook/result consistency on each push. The real-data test runs locally when the Kaggle ZIP is present; CI skips that test because raw data is not redistributed. Tested dependency versions are pinned in [`requirements.txt`](requirements.txt).
+
+## Sources
+
+- [Kaggle Titanic data and dictionary](https://www.kaggle.com/competitions/titanic/data) and [competition rules](https://www.kaggle.com/competitions/titanic/rules)
+- [scikit-learn: Naive Bayes](https://scikit-learn.org/stable/modules/naive_bayes.html)
+- [scikit-learn: Logistic Regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression)
