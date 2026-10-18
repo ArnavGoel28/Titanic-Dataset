@@ -28,7 +28,7 @@ Majority-class baseline accuracy: 0.620.
 
 ```text
                      Accuracy  Precision  Recall      F1  ROC-AUC  Log-loss
-Model                                                                      
+Model
 Naive Bayes            0.7877     0.7206  0.7206  0.7206   0.8409    0.6546
 Logistic Regression    0.8045     0.7538  0.7206  0.7368   0.8650    0.4342
 ```

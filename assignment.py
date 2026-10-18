@@ -272,4 +272,4 @@ Tables, plots and this report are generated from real results.
 - NB: https://scikit-learn.org/stable/modules/naive_bayes.html
 - LR: https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
 """
-(REPORTS / "assignment_report.md").write_text(report, encoding="utf-8")
+(REPORTS / "assignment_report.md").write_text("\n".join(line.rstrip() for line in report.splitlines()) + "\n", encoding="utf-8")
