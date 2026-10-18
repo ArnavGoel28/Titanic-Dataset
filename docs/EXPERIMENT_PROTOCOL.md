@@ -1,5 +1,18 @@
 # Experiment Protocol — Leakage-Safe by Design
 
+## Frozen Titanic protocol (2026-10-18, before any model fitting)
+Executable values are in `config/experiment.json`. Positive label 1 means survived. Raw predictors: Age, SibSp, Parch, Fare, Pclass, Sex, Embarked. PassengerId is identity only; Name and Ticket define travel groups only; Cabin is an excluded high-cardinality identifier. Exclusions are semantic choices made before model results. No feature-selection search, clipping, family-size predictor or target-informed engineering.
+
+Travel groups are connected components under normalized shared ticket or (surname, reported family size) with size > 1. Use StratifiedGroupKFold(5, shuffle=True, random_state=42), outer fold 0 as the approximately 20% holdout, chosen by index without evaluating candidates. Remaining records form development training. Use the same five inner group-aware folds for all models and every candidate. Group stratification is approximate; do not search seeds for attractive balance/results. If a partition lacks a class, fail explicitly.
+
+Numeric predictors: training-fold median imputation then StandardScaler. Categorical predictors: training-fold most-frequent imputation, dense one-hot encoding with first category dropped and unknowns ignored. Same raw predictors and encoding for both algorithms; numeric scaling benefits LR regularization and makes GaussianNB's variance floor less dependent on units. One-hot indicators and counts are not Gaussian: GaussianNB is an explicitly misspecified approximation, and dropping redundant dummy columns only partially reduces dependence. Do not describe this as a mixed-likelihood NB model.
+
+Baseline: DummyClassifier(strategy='prior'), threshold 0.5. GaussianNB var_smoothing candidates [1e-9, 1e-5, 0.01, 0.1]. LogisticRegression C [0.1, 1, 10], lbfgs solver, default L2 regularization, max_iter=3000. Select highest mean inner-CV survival F1; ties use listed order. GridSearchCV refits selected pipeline on development training. Report candidate fold scores and selected fold mean/sample SD. These are selection-CV estimates (potentially optimistic), not nested-CV performance estimates.
+
+No resampling or class weighting: 38.4% positives is moderate imbalance. Fixed probability threshold 0.5. Primary metric survival F1; also report accuracy, precision, recall, specificity, balanced accuracy, ROC-AUC, AP, log-loss and Brier score. AP is average precision, not trapezoidal PR area. Undefined precision/recall use zero_division=0. No probability calibration or threshold tuning.
+
+Freeze parameters before one holdout evaluation. Compute 1,000 paired bootstrap replicates by resampling whole holdout travel groups with replacement, seed 2026; 95% percentile intervals for F1/accuracy/ROC-AUC/log-loss and LR-minus-NB differences. Skip single-class replicates for ROC-AUC and report accepted count. These conditional, approximate intervals do not include training/model-selection variability or prove population superiority. Reproduction runs repeat this same fixed experiment; never revise choices based on holdout results.
+
 ## Pre-register the approach
 Record dataset, target, positive class, split strategy, validation folds, primary metric and candidate tuning ranges BEFORE viewing test results. Do not retroactively edit the rationale to match favourable results.
 
