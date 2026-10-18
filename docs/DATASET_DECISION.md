@@ -1,6 +1,21 @@
 # Dataset Selection and Provenance
 
-**Status: undecided. Do not assert a selected dataset until verified.**
+**Status: selected and inspected on 2026-10-18.**
+
+## Verified selection
+- Dataset: Titanic - Machine Learning from Disaster, Kaggle competition, user-supplied archive `data/titanic.zip`.
+- Source: https://www.kaggle.com/competitions/titanic/data ; terms: https://www.kaggle.com/competitions/titanic/rules . Metadata lists **Subject to Competition Rules**, not a blanket open-source data license. Raw files remain ignored; download independently after accepting Kaggle terms. Archive provenance is user supplied, not authenticated by a publisher signature.
+- Selected bytes: archive member `train.csv`, 61,194 bytes; SHA-256 `7d118fef8b6ccf7f81111877bc388536f7b1e498a655e3d649d19aaa010e9f6f`. This exactly matches the earlier CSV from https://www.kaggle.com/datasets/yasserh/titanic-dataset . Its mirror license need not be inferred.
+- 891 records, 12 columns: 11 non-target fields, of which 7 will be predictors. Target `Survived`: 1 = survived (positive), 0 = did not survive. Counts 342 / 549 (38.38% positive).
+- Numeric predictors: Age (years), SibSp, Parch, Fare (recorded fare units). Categorical: Pclass, Sex, Embarked. See Kaggle data dictionary for family-count definitions.
+- Exclude PassengerId, Name, Ticket, Cabin as raw identifiers/high-cardinality fields; retain Name/Ticket solely for target-free travel-group construction. No post-outcome fields are predictors. Sex and class are sensitive/social attributes; results describe this historical sample, not causal effects or contemporary allocation policy.
+- Missing Age 177, Cabin 687, Embarked 2; other columns 0. No exact duplicate rows or duplicate PassengerId. Zero fares exist; no evidence establishes them as erroneous, so do not replace automatically. Plausible extreme fares/ages stay in the data.
+- 134 shared-ticket groups cover 344 rows before normalization. Dependence can span tickets: use connected components of normalized shared ticket OR (surname, reported family size) when family size > 1. This imperfect proxy can miss companions or overmerge unrelated names; report that limitation.
+- Split and CV must keep these components together. No arbitrary record deduplication or synthetic resampling.
+- Archive `test.csv`: 418 unlabeled records; `gender_submission.csv`: 418 example predictions, not ground truth. Neither is used for evaluation, fitting, imputation, encoding, tuning, or EDA.
+- User explicitly supplied the Titanic files and identified the official Kaggle source. Choose Titanic over clean numeric alternatives because it supports meaningful missingness, categorical handling and dependence analysis within the requested scope.
+- Retrieval: sign in to Kaggle, accept competition rules if prompted, Download All, save archive as `data/titanic.zip`. Optional Kaggle CLI: `kaggle competitions download -c titanic -p data` (CLI/account setup is optional and outside the experiment dependencies).
+- Loader: `from src.data import load_data; frame = load_data()`; refuses different bytes or invalid schema. No account access or download is needed at experiment runtime once the user supplies the file.
 
 ## Selection criteria
 1. Binary classification with explicit semantic positive class and ethically appropriate usage.
@@ -19,7 +34,7 @@
 | Banknote authentication | Numeric, accessible classroom demo | Possibly little cleaning effort |
 | Bank marketing | Realistic, potential imbalance and categoricals | Potentially more complex/time consuming |
 
-## Dataset decision record — fill after investigation
+## Original decision checklist (covered by verified selection above)
 - Dataset name and exact version:
 - Official source URL, download path, accessed date:
 - License/usage permission:

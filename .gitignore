@@ -33,3 +33,4 @@ data/*.csv
 data/*.zip
 /SAGEMAKER_LEARNED_EVOLUTION.ipynb
 tmp/
+.pytest_tmp/
