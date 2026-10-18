@@ -146,11 +146,15 @@ plt.close(fig)
 # Both models use default settings; max_iter only gives LR enough time to converge.
 
 # %%
-models = {"Naive Bayes": GaussianNB(),
+# Train Naive Bayes directly so the fit step is easy to identify.
+naive_bayes = GaussianNB()
+naive_bayes.fit(X_train, y_train)
+print("Naive Bayes training complete")
+
+models = {"Naive Bayes": naive_bayes,
           "Logistic Regression": LogisticRegression(max_iter=1000)}
-for name, model in models.items():
-    model.fit(X_train, y_train)
-    print(name, "training complete")
+models["Logistic Regression"].fit(X_train, y_train)
+print("Logistic Regression training complete")
 
 # %% [markdown]
 # ## 9. Compare results
